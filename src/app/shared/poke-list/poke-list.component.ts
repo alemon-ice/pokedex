@@ -12,13 +12,20 @@ export class PokeListComponent implements OnInit {
   public allPokemonsList: PokemonsList = [];
   public pokemonsList: PokemonsList = [];
 
+  public apiError = false;
+
   constructor(private pokeAPIService: PokeAPIService) {}
 
   ngOnInit(): void {
-    this.pokeAPIService.listPokemons.subscribe((responseListPokemons) => {
-      this.allPokemonsList = responseListPokemons.results;
-      this.pokemonsList = responseListPokemons.results;
-    });
+    this.pokeAPIService.listPokemons.subscribe(
+      (responseListPokemons) => {
+        this.allPokemonsList = responseListPokemons.results;
+        this.pokemonsList = responseListPokemons.results;
+      },
+      (err) => {
+        this.apiError = true;
+      }
+    );
   }
 
   public search(value: string) {

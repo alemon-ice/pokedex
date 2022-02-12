@@ -16,6 +16,7 @@ export class DetailsComponent implements OnInit {
 
   public pokemon: Pokemon;
   public isLoaded = false;
+  public apiError = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -35,9 +36,14 @@ export class DetailsComponent implements OnInit {
       `${this.nameURL}/${pokemonId}`
     );
 
-    forkJoin([pokemon, name]).subscribe((res) => {
-      this.pokemon = res;
-      this.isLoaded = true;
-    });
+    forkJoin([pokemon, name]).subscribe(
+      (res) => {
+        this.pokemon = res;
+        this.isLoaded = true;
+      },
+      (err) => {
+        this.apiError = true;
+      }
+    );
   }
 }
